@@ -9,5 +9,4 @@ class BloqueCerrado extends Bloque {
   }
 }
 
-
 module.exports = BloqueCerrado;
