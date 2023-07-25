@@ -1,27 +1,31 @@
 const TransaccionAbstracta = require('./transaccionAbstracta');
 
 class TransaccionCompuesta extends TransaccionAbstracta {
-  constructor() {
+  constructor(transacciones = []) {
     super();
-    this.transacciones = [];
-    this.nivel = 1;
+    this.transaccionesInternas = transacciones;
+    this.nivel = 0;
+    this.generarHashPorDefecto();
   }
 
   agregarTransaccion(transaccion) {
-    if (this.transacciones.length >= 3) {
-      throw new Error('No se pueden agregar más transacciones a esta transacción compuesta.');
+    if (this.nivel >= 2 || this.transaccionesInternas.length >= 3) {
+      throw new Error('No se pueden agregar más transacciones a una transacción compuesta llena.');
     }
 
-    if (transaccion.obtenerNivel() >= 3) {
-      throw new Error('No se pueden agregar transacciones compuestas a un nivel superior a 3.');
-    }
-
-    this.transacciones.push(transaccion);
+    this.transaccionesInternas.push(transaccion);
+    this.generarHashPorDefecto();
   }
 
   obtenerNivel() {
     return this.nivel;
   }
+
+  aumentarNivel() {
+    this.nivel++;
+  }
+
+  // Resto de métodos específicos de la transacción Compuesta
 }
 
 module.exports = TransaccionCompuesta;
