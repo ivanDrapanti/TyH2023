@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:debug": "node --inspect-brk -r esm ./node_modules/.bin/jest --runInBand"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.6.2"
+  }
 }
