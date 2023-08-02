@@ -5,7 +5,7 @@ class TransaccionCompuesta extends TransaccionAbstracta {
     super();
     this.transaccionesInternas = transacciones;
     this.nivel = 0;
-    this.generarHashPorDefecto();
+    this.calcularHash(); // Calcular el hash automáticamente al crear la Coinbase
   }
 
   agregarTransaccion(transaccion) {
@@ -14,7 +14,7 @@ class TransaccionCompuesta extends TransaccionAbstracta {
     }
 
     this.transaccionesInternas.push(transaccion);
-    this.generarHashPorDefecto();
+    this.calcularHash(); // Calcular el hash automáticamente al crear la Coinbase
   }
 
   obtenerNivel() {

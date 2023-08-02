@@ -1,5 +1,4 @@
 const TransaccionLeafAbstracta = require('./transaccionLeafAbstracta');
-const { MD5HashingStrategy } = require('./hashingStrategy');
 const { v4: uuidv4 } = require('uuid');
 
 class Coinbase extends TransaccionLeafAbstracta {
