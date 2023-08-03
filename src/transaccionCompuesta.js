@@ -1,11 +1,12 @@
 const TransaccionAbstracta = require('./transaccionAbstracta');
+const { MD5HashingStrategy } = require('./hashingStrategy');
 
 class TransaccionCompuesta extends TransaccionAbstracta {
   constructor(transacciones = []) {
     super();
     this.transaccionesInternas = transacciones;
     this.nivel = 0;
-    this.calcularHash(); // Calcular el hash automáticamente al crear la Coinbase
+    this.calcularHash(); // Calcular el hash automáticamente al crear la transacción compuesta
   }
 
   agregarTransaccion(transaccion) {
@@ -14,7 +15,7 @@ class TransaccionCompuesta extends TransaccionAbstracta {
     }
 
     this.transaccionesInternas.push(transaccion);
-    this.calcularHash(); // Calcular el hash automáticamente al crear la Coinbase
+    this.calcularHash(); // Calcular el hash automáticamente al agregar una transacción interna
   }
 
   obtenerNivel() {
@@ -23,6 +24,16 @@ class TransaccionCompuesta extends TransaccionAbstracta {
 
   aumentarNivel() {
     this.nivel++;
+  }
+
+  calcularHash() {
+    const data = this.transaccionesInternas
+      .map(transaccion => transaccion.hash)
+      .join('') + this.OUT + this.id + (this.IN || '');
+
+    const md5HashingStrategy = new MD5HashingStrategy();
+    this.setHashStrategy(md5HashingStrategy);
+    this.hash = this.hashStrategy.generateHash(data);
   }
 
   // Resto de métodos específicos de la transacción Compuesta
