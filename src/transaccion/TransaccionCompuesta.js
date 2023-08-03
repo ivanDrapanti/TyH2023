@@ -1,30 +1,47 @@
-const Transaction = require('./Transaccion');
+const TransaccionAbstracta = require('./transaccionAbstracta');
+const { MD5HashingStrategy } = require('../hashing');
 
-class TransaccionCompuesta extends Transaction{
-    constructor(transacciones = [], nivel) {
-        super();
-        this.transacciones = transacciones;
-        this.nivel = nivel == null ? 1 : nivel;
+class TransaccionCompuesta extends TransaccionAbstracta {
+  constructor(transacciones = [], nivel) {
+    super();
+    this.transaccionesInternas = transacciones;
+    this.nivel = nivel == null ? 1 : nivel;
+  }
+
+  agregarTransaccion(transaccion) {
+    if (this.transaccionesInternas != null && this.estaCompleta()) {
+      throw new Error('No se pueden agregar más transacciones a una transacción compuesta llena.');
     }
 
-    estaCompleta(){
-        return this.transacciones.length === 3;
-    }
+    if(this.transaccionesInternas == null)
+      this.transaccionesInternas = [];
 
-    obtenerTransacciones(){
-        if(this.transacciones == null)
-            this.transacciones = [];
-        return this.transacciones;
-    };
+    this.transaccionesInternas.push(transaccion);
+    if(this.estaCompleta())
+      this.calcularHash(); // Calcular el hash automáticamente al agregar una transacción interna
+  }
 
-    agregarTransaccion(transaccion){
-        if(this.transacciones != null && this.estaCompleta())
-            throw new Error('La transaccion compuesta esta llena');
-        //Aca habria que hashear la transaccion.
-        if(this.transacciones == null)
-            this.transacciones = [];
-        this.transacciones.push(transaccion);
-    }
+  estaCompleta() {
+    return this.transaccionesInternas.length === 3;
+  }
+
+  obtenerTransacciones() {
+    if(this.transaccionesInternas == null)
+      this.transaccionesInternas = [];
+    return this.transaccionesInternas;
+  }
+
+  calcularHash() {
+    const data = this.transaccionesInternas
+      .map(transaccion => transaccion.hash)
+      .join('') + this.OUT + this.id + (this.IN || '');
+
+    const md5HashingStrategy = new MD5HashingStrategy();
+    this.setHashStrategy(md5HashingStrategy);
+    this.hash = this.hashStrategy.generateHash(data);
+  }
+
+  // Resto de métodos específicos de la transacción Compuesta
 }
 
 module.exports = TransaccionCompuesta;
