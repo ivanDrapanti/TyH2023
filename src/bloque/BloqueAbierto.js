@@ -12,10 +12,10 @@ class BloqueAbierto extends Bloque {
    */
   agregarTransaccion(transaccion) {
     //Obtengo ultima transaccion compuesta de nivel 1
-    var utcNivel1 = this.obtenerUltimaTransaccion(this.transacciones);
+    var utcNivel1 = this.obtenerUltimaTransaccion(this.transacciones, 1);
 
     //Obtengo ultima transaccion compuesta de nivel 2
-    var utcNivel2 = this.obtenerUltimaTransaccion(utcNivel1.obtenerTransacciones());
+    var utcNivel2 = this.obtenerUltimaTransaccion(utcNivel1.obtenerTransacciones(), 2);
 
     utcNivel2.agregarTransaccion(transaccion);
 
@@ -32,12 +32,12 @@ class BloqueAbierto extends Bloque {
     }
   }
 
-  obtenerUltimaTransaccion(transacciones){
+  obtenerUltimaTransaccion(transacciones, nivel){
     var ultimaTransaccionCompuesta;
     if(transacciones.length > 0){
       ultimaTransaccionCompuesta = transacciones[transacciones.length - 1];
     } else {
-      transacciones.push(new TransaccionCompuesta(null, 1));
+      transacciones.push(new TransaccionCompuesta(null, nivel));
       ultimaTransaccionCompuesta = transacciones[0];
     }
     return ultimaTransaccionCompuesta;
