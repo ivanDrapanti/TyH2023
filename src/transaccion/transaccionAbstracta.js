@@ -1,9 +1,10 @@
 const { MD5HashingStrategy, SHA256HashingStrategy } = require('../hashing');
 const { v4: uuidv4 } = require('uuid');
 
+
 class TransaccionAbstracta {
   constructor(idAnterior = null, OUT) {
-    this.id = `tx-${uuidv4()}`;
+    this.id = 'tx-' + uuidv4();
     this.IN = idAnterior; // Almacena el id de la transacción anterior
     this.OUT = OUT;
     this.hash = null;
@@ -22,6 +23,7 @@ class TransaccionAbstracta {
   setHashStrategy(hashStrategy) {
     this.hashStrategy = hashStrategy;
   }
+
 
   validarIntegridad() {
     const data = `${this.TKN || ''}-${this.OUT}-${this.id}-${this.IN || ''}`;

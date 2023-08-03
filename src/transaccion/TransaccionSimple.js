@@ -5,13 +5,6 @@ class TransaccionSimple extends TransaccionLeafAbstracta {
     super(IN, OUT);
   }
 
-  agregarTransaccion(transaccion) {
-    throw new Error('No se pueden agregar transacciones a una transacción de tipo TransaccionSimple.');
-  }
-
-  obtenerNivel() {
-    return 0;
-  }
 }
 
 module.exports = TransaccionSimple;
