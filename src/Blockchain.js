@@ -1,5 +1,3 @@
-const Nodo = require('./Nodo');
-
 class Blockchain {
 	constructor(){
 		this._bloques = [];

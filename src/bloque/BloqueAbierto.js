@@ -4,6 +4,7 @@ const Bloque = require("./Bloque");
 class BloqueAbierto extends Bloque {
   constructor(transacciones = []) {
     super(transacciones);
+    this.bloqueCompleto = false;
   }
 
   /**
@@ -22,8 +23,8 @@ class BloqueAbierto extends Bloque {
 
     if(utcNivel2.estaCompleta()) {
       if(utcNivel1.estaCompleta()) {
-        if(this.estaCompleta()) {
-          return true;
+        if(this.transaccionesPropiasCompletas()) {
+          this.bloqueCompleto = true;
         } else {
           this.transacciones.push(new TransaccionCompuesta([], 1));
         }
@@ -31,7 +32,6 @@ class BloqueAbierto extends Bloque {
         utcNivel1.agregarTransaccion(new TransaccionCompuesta([], 2));
       }
     }
-    return false;
   }
 
   obtenerUltimaTransaccion(transacciones, nivel){
@@ -50,8 +50,12 @@ class BloqueAbierto extends Bloque {
   * Tiene 10 transacciones y la ultimas transacciones de nivel 1 y de nivel 2 estan completas.
   * @returns {boolean} Si el bloque esta completo.
   */
-  estaCompleta() {
+  transaccionesPropiasCompletas() {
     return this.transacciones.length === 10;
+  }
+
+  estaBloqueCompleto(){
+    return this.bloqueCompleto;
   }
 
   obtenerTransacciones(){

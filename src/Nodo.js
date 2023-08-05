@@ -11,7 +11,8 @@ class Nodo {
 	}
 
 	agregarTransaccion(transaccion){
-		if(this._bloqueAbierto.agregarTransaccion(transaccion))
+		this._bloqueAbierto.agregarTransaccion(transaccion);
+		if(this._bloqueAbierto.estaBloqueCompleto())
 			this.broadCast();
 	}
 
