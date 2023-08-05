@@ -13,7 +13,7 @@ class Blockchain {
 	obtenerUltimoBloque(){
 		if(this._bloques == null)
 			return null;
-		return _bloques[_bloques.length - 1];
+		return this._bloques[this._bloques.length - 1];
 	}
 
 	obtenerBlockchain(){

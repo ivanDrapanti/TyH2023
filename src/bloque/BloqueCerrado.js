@@ -20,9 +20,10 @@ class BloqueCerrado extends Bloque {
   }
 
   calcularHashTransacciones(){
+    let hashTransacciones = null;
     for (let i = 0; i < this.transacciones.length; i++) {
-      const hashTransaccione = this.hashStrategy.generateHash(this.transacciones[i]);
-      hashTransacciones += hashTransaccione;
+      const hashTransaccion = this.hashStrategy.generateHash(this.transacciones[i]);
+      hashTransacciones += hashTransaccion;
     }
     return hashTransacciones;
   }

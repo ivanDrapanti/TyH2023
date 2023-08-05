@@ -19,17 +19,15 @@ class Nodo {
  	* Realizo broadCast. Genero un BloqueCerrado, limpio el BloqueNuevo y actualizo la Blockchain.
  	*/
 	broadCast() {
-		ultimoBloque = this._blockchain.obtenerUltimoBloque();
-		previousHash = null;
+		const ultimoBloque = this._blockchain.obtenerUltimoBloque();
+		let previousHash = null;
 		if(ultimoBloque != null){
 			previousHash = ultimoBloque.obtenerHash();
 		}
-		bloqueCerrado = new BloqueCerrado(this._bloqueAbierto.obtenerTransacciones(), Date.now(), previousHash);
+		const bloqueCerrado = new BloqueCerrado(this._bloqueAbierto.obtenerTransacciones(), Date.now(), previousHash);
 		this._blockchain.push(bloqueCerrado);
-		this._bloqueAbierto = new BloqueAbierto(new TransaccionCompuesta(null, 1));
-	}
-
-	enviarBloque(bloque){
-		this._blockchain.push(blockchain.push(bloque));
+		this._bloqueAbierto = new BloqueAbierto();
 	}
 }
+
+module.exports = Nodo;

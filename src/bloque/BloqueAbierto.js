@@ -9,7 +9,7 @@ class BloqueAbierto extends Bloque {
   /**
    * Agrega una transaccion al bloque siguiendo la lógica documentada.
    * @param TransaccionSimple transaccion a agregar.
-   * @returns si esta completa.
+   * @return si esta completa.
    */
   agregarTransaccion(transaccion) {
     //Obtengo ultima transaccion compuesta de nivel 1
