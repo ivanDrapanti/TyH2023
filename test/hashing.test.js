@@ -1,4 +1,4 @@
-const { MD5HashingStrategy, SHA256HashingStrategy } = require('../src/hashing');
+const { MD5HashingStrategy, SHA256HashingStrategy, HashingStrategy} = require('../src/hashing');
 
 describe('Hashing Strategies', () => {
   describe('MD5HashingStrategy', () => {
@@ -51,6 +51,22 @@ describe('Hashing Strategies', () => {
       const isValid = sha256HashingStrategy.verifyHash(data, hash);
       expect(isValid).toBe(false);
     });
+  });
+});
+
+describe('HashingStrategy', () => {
+  test('generateHash() should throw an error', () => {
+    const hashingStrategy = new HashingStrategy();
+    expect(() => {
+      hashingStrategy.generateHash('data');
+    }).toThrowError('generateHash() method must be implemented.');
+  });
+
+  test('verifyHash() should throw an error', () => {
+    const hashingStrategy = new HashingStrategy();
+    expect(() => {
+      hashingStrategy.verifyHash('data', 'hash');
+    }).toThrowError('verifyHash() method must be implemented.');
   });
 });
 
