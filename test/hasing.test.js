@@ -53,3 +53,14 @@ describe('Hashing Strategies', () => {
     });
   });
 });
+
+describe('MD5HashingStrategy', () => {
+    test('should generate the correct hash', () => {
+      const md5HashingStrategy = new MD5HashingStrategy();
+      const data = 'hello'; // Replace 'hello' with the data for which you want to generate the hash.
+      const expectedHash = '5d41402abc4b2a76b9719d911017c592'; // Replace with the expected hash for the given data.
+  
+      const generatedHash = md5HashingStrategy.generateHash(data);
+      expect(generatedHash).toEqual(expectedHash);
+    });
+  });

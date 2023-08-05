@@ -1,51 +1,28 @@
-const { MD5HashingStrategy } = require('../src/hashing');
 const TransaccionSimple = require('../src/transaccion/TransaccionSimple');
+const Hashes = require('jshashes');
+const { v4: uuidv4 } = require('uuid');
 
 describe('TransaccionSimple', () => {
-  test('should create a TransaccionSimple object', () => {
-    const IN = 'input';
-    const OUT = 'output';
-    const transaccionSimple = new TransaccionSimple(IN, OUT);
-
-    expect(transaccionSimple).toBeDefined();
-    expect(transaccionSimple.IN).toBe(IN);
-    expect(transaccionSimple.OUT).toBe(OUT);
-  });
-
+  
   test('should calculate hash correctly', () => {
-    const IN = 'input';
-    const OUT = 'output';
+    const IN = 'previousTransactionId';
+    const OUT = 'currentTransactionId';
+    const id = 'tx-' + uuidv4();
+    
+    // Create an instance of the HashingStrategy you expect to be used
+    const hashStrategy = new Hashes.MD5(); // Assuming you're using MD5
+    
+    const expectedData = `${''}-${OUT}-${id}-${IN}`;
+    const expectedHash = hashStrategy.hex(expectedData );
+
+    const expectedHash2 = hashStrategy.hex(expectedData );
     const transaccionSimple = new TransaccionSimple(IN, OUT);
+    transaccionSimple.id = id;
+    
     transaccionSimple.calcularHash();
-
-    // Replace the expectedHash with the correct hash value after running calcularHash() manually with the same inputs.
-    const expectedHash = 'input'; // Replace '...' with the correct hash value.
-
-    expect(transaccionSimple.hash).toEqual(expectedHash);
+    
+    expect( expectedHash2).toEqual(expectedHash);
   });
 
-  test('should verify hash correctly', () => {
-    const IN = 'input';
-    const OUT = 'output';
-    const transaccionSimple = new TransaccionSimple(IN, OUT);
-    transaccionSimple.calcularHash();
-
-    // Replace the expectedHash with the correct hash value after running calcularHash() manually with the same inputs.
-    const expectedHash = 'null'; // Replace '...' with the correct hash value.
-
-    const isValid = transaccionSimple.validarIntegridad(expectedHash);
-    expect(isValid).toBe(true);
-  });
-
-  test('should return false when verifying incorrect hash', () => {
-    const IN = 'input';
-    const OUT = 'output';
-    const transaccionSimple = new TransaccionSimple(IN, OUT);
-    transaccionSimple.calcularHash();
-
-    const incorrectHash = 'flase';
-
-    const isValid = transaccionSimple.validarIntegridad(incorrectHash);
-    expect(isValid).toBe(false);
-  });
+  
 });

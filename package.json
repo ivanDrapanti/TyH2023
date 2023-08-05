@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "test:debug": "node --inspect-brk -r esm ./node_modules/.bin/jest --runInBand"
   },
   "keywords": [],
@@ -20,8 +20,7 @@
   "jest": {
     "collectCoverage": true,
     "coverageReporters": [
-      "json",
-      "html"
+      "lcov", "text"
     ]
   }
 }

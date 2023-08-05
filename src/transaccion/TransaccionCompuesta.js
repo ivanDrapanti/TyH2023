@@ -44,7 +44,7 @@ class TransaccionCompuesta extends TransaccionAbstracta {
   calcularHash() {
     const data = this.transaccionesInternas
       .map(transaccion => transaccion.hash)
-      .join('') + this.OUT + this.id + (this.IN || '');
+      .join(this.TKN || '') + this.OUT + this.id + (this.IN || '');
   
     this.hash = this.hashStrategy.generateHash(data);
   }
