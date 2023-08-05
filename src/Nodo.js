@@ -1,25 +1,35 @@
-const Blockchain = require('./Blockchain');
+const BloqueCerrado = require('./bloque/BloqueCerrado');
+const BloqueAbierto = require('./bloque/BloqueAbierto');
 
 class Nodo {
-    constructor(blockchain){
-        this._blockchain = blockchain;
-    }
+	constructor(blockchain, bloqueAbierto){
+		this._blockchain = blockchain;
+		if(this._blockchain == null) 
+			throw new Error('BlockChain debe ser distinto de nulo');
 
-    recibirBlockchainActualizada(){
-        this._bloques = blockchain.obtenerBlockchain();
-    }
+		this._bloqueAbierto = bloqueAbierto;
+	}
 
-    //puede haber una clase bloque cerrado y bloque abierto y usar composición entonces manejan distinto comportamiento
-    cerrarBloque(){
+	agregarTransaccion(transaccion){
+		if(this._bloqueAbierto.agregarTransaccion(transaccion))
+			this.broadCast();
+	}
 
-    }
+	/**
+ 	* Realizo broadCast. Genero un BloqueCerrado, limpio el BloqueNuevo y actualizo la Blockchain.
+ 	*/
+	broadCast() {
+		ultimoBloque = this._blockchain.obtenerUltimoBloque();
+		previousHash = null;
+		if(ultimoBloque != null){
+			previousHash = ultimoBloque.obtenerHash();
+		}
+		bloqueCerrado = new BloqueCerrado(this._bloqueAbierto.obtenerTransacciones(), Date.now(), previousHash);
+		this._blockchain.push(bloqueCerrado);
+		this._bloqueAbierto = new BloqueAbierto(new TransaccionCompuesta(null, 1));
+	}
 
-    crearBloque(){
-        let nuevoBloque = new Bloque();
-        return nuevoBloque;
-    }
-
-    enviarBloque(bloque){
-        this._blockchain.push(blockchain.push(bloque));
-    }
+	enviarBloque(bloque){
+		this._blockchain.push(blockchain.push(bloque));
+	}
 }
