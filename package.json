@@ -20,7 +20,7 @@
   "jest": {
     "collectCoverage": true,
     "coverageReporters": [
-      "lcov", "text"
+      "lcov", "text", "html"
     ]
   }
 }
