@@ -2,7 +2,7 @@ const TransaccionAbstracta = require('./transaccionAbstracta');
 
 class TransaccionLeafAbstracta extends TransaccionAbstracta {
   constructor(IN, OUT) {
-    super();
+    super(IN,OUT);
   }
 }
 

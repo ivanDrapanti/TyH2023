@@ -15,13 +15,12 @@ describe('TransaccionSimple', () => {
     const expectedData = `${''}-${OUT}-${id}-${IN}`;
     const expectedHash = hashStrategy.hex(expectedData );
 
-    const expectedHash2 = hashStrategy.hex(expectedData );
     const transaccionSimple = new TransaccionSimple(IN, OUT);
     transaccionSimple.id = id;
     
     transaccionSimple.calcularHash();
     
-    expect( expectedHash2).toEqual(expectedHash);
+    expect( transaccionSimple.hash).toEqual(expectedHash);
   });
 
   
