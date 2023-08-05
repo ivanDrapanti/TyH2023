@@ -7,8 +7,9 @@ class BloqueAbierto extends Bloque {
   }
 
   /**
-   * Agrega una transaccion al bloque siguiendo la lógica documentada
+   * Agrega una transaccion al bloque siguiendo la lógica documentada.
    * @param TransaccionSimple transaccion a agregar.
+   * @return si esta completa.
    */
   agregarTransaccion(transaccion) {
     //Obtengo ultima transaccion compuesta de nivel 1
@@ -22,7 +23,7 @@ class BloqueAbierto extends Bloque {
     if(utcNivel2.estaCompleta()) {
       if(utcNivel1.estaCompleta()) {
         if(this.estaCompleta()) {
-          this.broadCast();
+          return true;
         } else {
           this.transacciones.push(new TransaccionCompuesta([], 1));
         }
@@ -30,6 +31,7 @@ class BloqueAbierto extends Bloque {
         utcNivel1.agregarTransaccion(new TransaccionCompuesta([], 2));
       }
     }
+    return false;
   }
 
   obtenerUltimaTransaccion(transacciones, nivel){
@@ -44,20 +46,16 @@ class BloqueAbierto extends Bloque {
   }
 
   /**
-   * Realizo broadCast. Genero un BloqueCerrado, limpio el BloqueNuevo y actualizo la Blockchain.
-   */
-  broadCast() {
-    //WIP
-    //this.transacciones = [];
-  }
-
-  /**
   * Devuelve si el bloque esta completo. El bloque esta completo si:
   * Tiene 10 transacciones y la ultimas transacciones de nivel 1 y de nivel 2 estan completas.
   * @returns {boolean} Si el bloque esta completo.
   */
   estaCompleta() {
     return this.transacciones.length === 10;
+  }
+
+  obtenerTransacciones(){
+    return this.transacciones;
   }
 }
 

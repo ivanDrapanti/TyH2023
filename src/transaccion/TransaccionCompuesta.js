@@ -30,17 +30,7 @@ class TransaccionCompuesta extends TransaccionAbstracta {
       this.transaccionesInternas = [];
     return this.transaccionesInternas;
   }
-/*
-  calcularHash() {
-    const data = this.transaccionesInternas
-      .map(transaccion => transaccion.hash)
-      .join('') + this.OUT + this.id + (this.IN || '');
 
-    const md5HashingStrategy = new MD5HashingStrategy();
-    this.setHashStrategy(md5HashingStrategy);
-    this.hash = this.hashStrategy.generateHash(data);
-  }
-*/
   calcularHash() {
     const data = this.transaccionesInternas
       .map(transaccion => transaccion.hash)
